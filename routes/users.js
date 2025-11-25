@@ -2,6 +2,11 @@
 const express = require("express")
 const router = express.Router()
 
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+const plainPassword = req.body.password
+
+
 router.get('/register', function (req, res, next) {
     res.render('register.ejs')
 })
