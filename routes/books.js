@@ -20,7 +20,7 @@ router.get('/list', function(req, res, next) {
             next(err)
             return
         }
-        res.send(result)
+        res.render("list.ejs", { availableBooks: result })
     });
 });
 
