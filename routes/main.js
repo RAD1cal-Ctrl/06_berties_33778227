@@ -16,6 +16,11 @@ router.get('/addbook', function (req, res, next) {
     res.render('addbook.ejs');
 });
 
+// Redirect to user registration from home-level /register
+router.get('/register', function (req, res) {
+    res.redirect('/users/register')
+})
+
 // Handle form submission and insert into database
 router.post('/bookadded', function (req, res, next) {
 
