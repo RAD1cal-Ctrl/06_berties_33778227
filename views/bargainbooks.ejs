@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bargain Books</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <h1>Bertie's Books Shop</h1>
+    <h2>Bargain books (under £20)</h2>
+
+    <% if (bargainBooks.length === 0) { %>
+        <p>No bargain books at the moment.</p>
+    <% } else { %>
+        <ul>
+            <% bargainBooks.forEach(function (book) { %>
+                <li><%= book.name %>, £<%= book.price %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <p><a href="/books/list">Back to book list</a></p>
+    <p><a href="/">Back to home</a></p>
+</body>
+</html>

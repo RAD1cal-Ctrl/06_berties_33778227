@@ -10,6 +10,10 @@
     <h1>Bertie's Books Shop</h1>
     <h2>Add a new book</h2>
 
+    <% if (typeof message !== 'undefined') { %>
+        <p><strong><%= message %></strong></p>
+    <% } %>
+
     <form method="POST" action="/books/bookadded">
         <p>
             <label for="name">Book title:</label>

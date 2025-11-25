@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <h1>Bertie's Books Shop</h1>
+    <h2>Search results for "<%= keyword %>"</h2>
+
+    <% if (foundBooks.length === 0) { %>
+        <p>No books found matching "<%= keyword %>".</p>
+    <% } else { %>
+        <ul>
+            <% foundBooks.forEach(function (book) { %>
+                <li><%= book.name %>, £<%= book.price %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <p><a href="/books/search">Search again</a></p>
+    <p><a href="/books/list">Back to book list</a></p>
+</body>
+</html>
