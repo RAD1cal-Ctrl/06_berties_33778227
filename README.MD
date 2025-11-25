@@ -1,6 +1,6 @@
 # Berties Books
 
-Sample code for Dynamic Web Applications module.
+week 6 labs for Dynamic Web Applications module.
 
 Uses node.js with Express and EJS.
 
