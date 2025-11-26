@@ -38,11 +38,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Define our application-specific data
 app.locals.shopData = {shopName: "Bertie's Books"}
 
+// Allow DB credentials to be configured via env vars when the local defaults do not exist
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'berties_books_app',
-    password: 'qwertyuiop',
-    database: 'berties_books',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'berties_books_app',
+    password: process.env.DB_PASSWORD || 'qwertyuiop',
+    database: process.env.DB_NAME || 'berties_books',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,

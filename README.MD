@@ -4,12 +4,16 @@ Simple Node/Express/EJS app for the DWA labs.
 
 ## Run
 1) `npm install` (uses `bcryptjs`, no native build needed)
-2) Set DB password env var: `DB_PASSWORD=qwertyuiop` (or change in `index.js`)
+2) Configure DB creds (overrides available in env):
+   - `DB_HOST` (default `localhost`)
+   - `DB_USER` (default `berties_books_app`)
+   - `DB_PASSWORD` (default `qwertyuiop`)
+   - `DB_NAME` (default `berties_books`)
 3) `node index.js` (listens on 8000)
 
 ## Database
-- Create DB/user: `berties_books_app` / `qwertyuiop`
-- Seed: `mysql -u berties_books_app -p < create_db.sql` then `insert_test_data.sql` (adds user `gold` / `smiths`)
+- Create DB/user: run `mysql -u root -p < create_db.sql` (or another admin account). It creates `berties_books` and the `berties_books_app` user with password `qwertyuiop`.
+- Seed: `mysql -u berties_books_app -p < insert_test_data.sql` (adds user `gold` / `smiths`)
 
 ## Access
 - Login needed: `/books/addbook`, `/books/bookadded`, `/books/list`, `/logout`
