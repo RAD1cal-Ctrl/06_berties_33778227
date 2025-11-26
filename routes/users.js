@@ -4,6 +4,7 @@ const router = express.Router()
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
+const { check, validationResult } = require('express-validator')
 
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId ) {
@@ -18,8 +19,26 @@ router.get('/register', function (req, res, next) {
     res.render('register.ejs')
 })
 
-router.post('/registered', function (req, res, next) {
+router.post('/registered',
+[
+    check('email').isEmail().normalizeEmail(),
+    check('username').isLength({ min: 5, max: 20 }).trim().escape(),
+    check('password').isLength({ min: 8 }),
+    check('first').trim().escape(),
+    check('last').trim().escape()
+],
+function (req, res, next) {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.redirect('./register')
+    }
+
+    const safeFirst = req.sanitize(req.body.first || '')
+    const safeLast = req.sanitize(req.body.last || '')
+    const safeUsername = req.sanitize(req.body.username || '')
+    const safeEmail = req.sanitize(req.body.email || '')
     const plainPassword = req.body.password
+
 
     bcrypt.hash(plainPassword, saltRounds, function (err, hashedPassword) {
         if (err) {
@@ -27,14 +46,14 @@ router.post('/registered', function (req, res, next) {
         }
 
         const sqlquery = "INSERT INTO users (username, firstname, lastname, email, hashedPassword) VALUES (?, ?, ?, ?, ?)"
-        const newrecord = [req.body.username, req.body.first, req.body.last, req.body.email, hashedPassword]
+        const newrecord = [safeUsername, safeFirst, safeLast, safeEmail, hashedPassword]
 
         db.query(sqlquery, newrecord, (err, result) => {
             if (err) {
                 return next(err)
             }
 
-            let message = ' Hello ' + req.body.first + ' ' + req.body.last + ' you are now registered!  We will send an email to you at ' + req.body.email
+            let message = ' Hello ' + safeFirst + ' ' + safeLast + ' you are now registered!  We will send an email to you at ' + safeEmail
             message += '<br>Your password is: ' + plainPassword + ' and your hashed password is: ' + hashedPassword
             res.send(message)
         })
@@ -59,8 +78,9 @@ router.get('/login', function (req, res, next) {
 
 // Login handler
 router.post('/loggedin', function (req, res, next) {
+    const cleanUsername = req.sanitize(req.body.username || '')
     const sqlquery = "SELECT hashedPassword FROM users WHERE username = ?"
-    db.query(sqlquery, [req.body.username], (err, result) => {
+    db.query(sqlquery, [cleanUsername], (err, result) => {
         if (err) {
             return next(err)
         }
@@ -74,8 +94,8 @@ router.post('/loggedin', function (req, res, next) {
             if (err) {
                 return next(err)
             } else if (match == true) {
-                req.session.userId = req.body.username
-                res.send('Login successful for ' + req.body.username)
+                req.session.userId = cleanUsername
+                res.send('Login successful for ' + cleanUsername)
             } else {
                 res.send('Login failed: incorrect password')
             }
