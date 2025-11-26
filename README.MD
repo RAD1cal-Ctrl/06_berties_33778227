@@ -9,6 +9,8 @@ To install and run:
 npm install
 node index.js
 
+Note: uses `bcryptjs` (pure JS) for password hashing to work on older Node versions (e.g., Ubuntu 18.04 lab VM) without native builds.
+
 ## Week 8
 ## Access control
 
@@ -17,7 +19,7 @@ node index.js
 
 ## Validation
 
-- Registration: validates email, username length (5–20), password length (8+); sanitizes first/last name to reduce XSS in echoed messages.
+- Registration: validates email, username length (4–20), password length (6+); sanitizes username, email, first/last name to reduce XSS in echoed messages.
 - Other: add more validators where needed following the `express-validator` pattern.
 
 ## Sanitization

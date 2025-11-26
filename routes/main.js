@@ -59,7 +59,7 @@ router.get('/logout', redirectLogin, (req, res) => {
         if (err) {
             return res.redirect('/')
         }
-        res.send('You are now logged out. <a href="/">Home</a>')
+        res.render('logout.ejs')
     })
 })
 

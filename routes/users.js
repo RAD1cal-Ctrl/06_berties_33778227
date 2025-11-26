@@ -2,7 +2,7 @@
 const express = require("express")
 const router = express.Router()
 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const saltRounds = 10
 const { check, validationResult } = require('express-validator')
 
@@ -22,8 +22,8 @@ router.get('/register', function (req, res, next) {
 router.post('/registered',
 [
     check('email').isEmail().normalizeEmail(),
-    check('username').isLength({ min: 5, max: 20 }).trim().escape(),
-    check('password').isLength({ min: 8 }),
+    check('username').isLength({ min: 4, max: 20 }).trim().escape(), // allow 'gold'
+    check('password').isLength({ min: 6 }), // allow 'smiths' and stronger passwords
     check('first').trim().escape(),
     check('last').trim().escape()
 ],
@@ -95,7 +95,7 @@ router.post('/loggedin', function (req, res, next) {
                 return next(err)
             } else if (match == true) {
                 req.session.userId = cleanUsername
-                res.send('Login successful for ' + cleanUsername)
+                res.render('loggedin.ejs', { username: cleanUsername })
             } else {
                 res.send('Login failed: incorrect password')
             }
