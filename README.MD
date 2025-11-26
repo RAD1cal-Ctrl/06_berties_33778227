@@ -1,35 +1,19 @@
 # Berties Books
 
-week 6 labs for Dynamic Web Applications module.
+Simple Node/Express/EJS app for the DWA labs.
 
-Uses node.js with Express and EJS.
+## Run
+1) `npm install` (uses `bcryptjs`, no native build needed)
+2) Set DB password env var: `DB_PASSWORD=qwertyuiop` (or change in `index.js`)
+3) `node index.js` (listens on 8000)
 
-To install and run:
+## Database
+- Create DB/user: `berties_books_app` / `qwertyuiop`
+- Seed: `mysql -u berties_books_app -p < create_db.sql` then `insert_test_data.sql` (adds user `gold` / `smiths`)
 
-npm install
-node index.js
+## Access
+- Login needed: `/books/addbook`, `/books/bookadded`, `/books/list`, `/logout`
+- Public: home, about, search, bargain, register, login
 
-Note: uses `bcryptjs` (pure JS) for password hashing to work on older Node versions (e.g., Ubuntu 18.04 lab VM) without native builds.
-
-## Week 8
-## Access control
-
-- Login required: `/books/addbook`, `/books/bookadded`, `/books/list`, `/logout`.
-- Public: home, about, book search/bargain pages, registration, login.
-
-## Validation
-
-- Registration: validates email, username length (4–20), password length (6+); sanitizes username, email, first/last name to reduce XSS in echoed messages.
-- Other: add more validators where needed following the `express-validator` pattern.
-
-## Sanitization
-
-- `express-sanitizer` middleware enabled globally (`index.js`) so `req.sanitize` is available.
-- Registration sanitizes username, email, first, and last name before storing or echoing to mitigate XSS. Passwords are validated for length but not sanitized to preserve intended characters.
-- Other forms: add `req.sanitize` and appropriate validators where user-supplied data is stored or rendered.
-
-## Database configuration
-
-- Default DB user: `berties_books_app`
-- Default password: `qwertyuiop` (set `DB_PASSWORD` env var to override)
-- Sample/test user (inserted via `insert_test_data.sql`): username `gold`, password `smiths`
+## Validation/Safety
+- Register: email must be valid; username 4–20; password 6+; input sanitized to reduce XSS
