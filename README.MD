@@ -1,27 +1,41 @@
 # Berties Books
 
-Simple Node/Express/EJS app for the DWA labs.
+Small Node/Express/EJS site for the labs.
 
-## Run
-1) `npm install` (uses `bcryptjs`, no native build needed)
-2) Configure DB creds (overrides available in env):
-   - `DB_HOST` (default `localhost`)
-   - `DB_USER` (default `berties_books_app`)
-   - `DB_PASSWORD` (default `qwertyuiop`)
-   - `DB_NAME` (default `berties_books`)
-3) `node index.js` (listens on 8000)
+## Run it
+1) `npm install`
+2) DB settings (env vars, defaults in brackets):
+   - `DB_HOST` (`localhost`)
+   - `DB_USER` (`berties_books_app`)
+   - `DB_PASSWORD` (`qwertyuiop`)
+   - `DB_NAME` (`berties_books`)
+3) `node index.js` (port 8000)
 
-## Database
-- Create DB/user: run `mysql -u root -p < create_db.sql` (or another admin account). It creates `berties_books` and the `berties_books_app` user with password `qwertyuiop`.
-- Seed: `mysql -u berties_books_app -p < insert_test_data.sql` (adds user `gold` / `smiths`)
+## Database setup
+- Make DB/user: `mysql -u root -p < create_db.sql` (or use another admin account). Creates DB and user `berties_books_app` with password `qwertyuiop`.
+- Add sample data: `mysql -u berties_books_app -p < insert_test_data.sql` (user `gold` / `smiths`).
 
-## Access
-- Login needed: `/books/addbook`, `/books/bookadded`, `/books/list`, `/logout`
+## Pages
+- Login required: `/books/addbook`, `/books/bookadded`, `/books/list`, `/logout`
 - Public: home, about, search, bargain, register, login
+- Quick links when running locally on port 8000:
+  - Home: `http://localhost:8000/`
+  - About: `http://localhost:8000/about`
+  - Search: `http://localhost:8000/books/search`
+  - Bargain: `http://localhost:8000/books/bargainbooks`
+  - Weather: `http://localhost:8000/weather`
 
-## Validation/Safety
-- Register: email must be valid; username 4–20; password 6+; input sanitized to reduce XSS
+## Validation
+- Register form: email must be valid; username 4–20 chars; password 6+; inputs are sanitized.
 
-## Weather feature notes
-- Weather uses OpenWeatherMap; set `OPENWEATHER_API_KEY` if you don't want to rely on the inline demo key.
-- Capital dropdown options come from a compiled list of national capitals in `data/capitals.js` (based on publicly available on Wikipedia "List of national capitals").
+## Weather
+- Uses OpenWeatherMap; set `OPENWEATHER_API_KEY` to avoid the inline demo key.
+- Capital dropdown list lives in `data/capitals.js` (taken from the Wikipedia “List of national capitals”).
+
+## API
+- Base: `/api`
+- `GET /api/books` → all books as JSON
+  - `search` (optional) filter by name
+  - `minprice` / `min_price` (optional) minimum price
+  - `maxprice` / `max_price` (optional) maximum price
+  - `sort` (optional) `name` (default) or `price`

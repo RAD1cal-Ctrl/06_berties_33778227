@@ -1,1 +1,7 @@
 http://www.doc.gold.ac.uk/usr/288/
+http://localhost:8000/
+http://localhost:8000/about
+http://localhost:8000/books/search
+http://localhost:8000/books/bargainbooks
+http://localhost:8000/weather
+http://localhost:8000/api/books
