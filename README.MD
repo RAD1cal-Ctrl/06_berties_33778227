@@ -21,3 +21,7 @@ Simple Node/Express/EJS app for the DWA labs.
 
 ## Validation/Safety
 - Register: email must be valid; username 4–20; password 6+; input sanitized to reduce XSS
+
+## Weather feature notes
+- Weather uses OpenWeatherMap; set `OPENWEATHER_API_KEY` if you don't want to rely on the inline demo key.
+- Capital dropdown options come from a compiled list of national capitals in `data/capitals.js` (based on publicly available on Wikipedia "List of national capitals").

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Weather</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Weather</h1>
+    <p>Pick a capital from the list or type any city,country code (e.g. London,uk or Paris,fr).</p>
+
+    <form method="get" action="/weather">
+      <label for="city">City:</label><br>
+      <input id="city" name="city" type="text" list="capital-list" value="<%= city %>" />
+      <datalist id="capital-list">
+        <% capitals.forEach(function(cap) { %>
+          <option value="<%= cap.capital %>,<%= cap.code %>"><%= cap.capital %> — <%= cap.country %></option>
+        <% }) %>
+      </datalist>
+      <button type="submit">Get forecast</button>
+    </form>
+
+    <% if (message) { %>
+      <p><%= message %></p>
+    <% } %>
+
+    <% if (weather) { %>
+      <h2>Weather for <%= weather.city %><% if (weather.country) { %>, <%= weather.country %><% } %></h2>
+      <% if (weather.description) { %>
+        <p><%= weather.description %></p>
+      <% } %>
+      <ul>
+        <li>Temperature: <%= weather.temp != null ? weather.temp + '°C' : 'N/A' %></li>
+        <li>Feels like: <%= weather.feelsLike != null ? weather.feelsLike + '°C' : 'N/A' %></li>
+        <li>Humidity: <%= weather.humidity != null ? weather.humidity + '%' : 'N/A' %></li>
+        <li>Pressure: <%= weather.pressure != null ? weather.pressure + ' hPa' : 'N/A' %></li>
+        <li>Wind: <% if (weather.windSpeed != null) { %><%= weather.windSpeed %> m/s<% if (weather.windDir) { %> (<%= weather.windDir %><% if (weather.windDeg !== null && weather.windDeg !== undefined) { %> <%= weather.windDeg %>°<% } %>)<% } %><% } else { %>N/A<% } %></li>
+        <li>Clouds: <%= weather.clouds != null ? weather.clouds + '%' : 'N/A' %></li>
+      </ul>
+    <% } %>
+
+    <p><a href="/">Back to home</a></p>
+  </body>
+</html>
